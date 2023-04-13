@@ -1,0 +1,15 @@
+{
+  "name": "streamadhd-landing-page",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "npx wrangler pages dev . --d1=STREAM_DB"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "better-sqlite3": "^8.0.1"
+  }
+}
