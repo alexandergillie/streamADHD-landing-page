@@ -5,6 +5,7 @@ export async function onRequest(context) {
       const ps = context.env.STREAM_DB.prepare('SELECT * from waitlist');
       const db = context.env.STREAM_DB
 
+      
       const data = await ps.first();
       return Response.json(data);
     }
