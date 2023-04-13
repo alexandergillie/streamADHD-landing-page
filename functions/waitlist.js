@@ -10,7 +10,7 @@ export async function onRequestPost(context) {
       async function readRequestBody(request) {
         const contentType = request.headers.get("content-type");
         if (contentType.includes("application/json")) {
-          return JSON.stringify(await request.json());
+          return await request.json();
         } else if (contentType.includes("application/text")) {
           return request.text();
         } else if (contentType.includes("text/html")) {
@@ -32,12 +32,14 @@ export async function onRequestPost(context) {
     try{
      
       const reqBody = await readRequestBody(context.request);
-      const {full_name, email_address, phone, message} = reqBody
+      const {full_name, email_address, phone, message} = reqBody;
+
 
       console.log(reqBody)
-      const ps = context.env.STREAM_DB.prepare(`
-        INSERT INTO waitlist (full_name,email_address, phone, message)
-        VALUES( ?1, ?2, ?3, ?4)`).bind(full_name, email_address, phone, message);
+      console.log(full_name, email_address, phone, message)
+      const ps = context.env.STREAM_DB
+        .prepare('INSERT INTO waitlist (full_name, email_address, phone, message) VALUES ( ?1, ?2, ?3, ?4)')
+        .bind(full_name, email_address, phone, message);
       console.log(ps)
 
       const data = (await ps.run()).meta;
