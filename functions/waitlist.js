@@ -37,10 +37,10 @@ export async function onRequestPost(context) {
       console.log(reqBody)
       const ps = context.env.STREAM_DB.prepare(`
         INSERT INTO waitlist (full_name,email_address, phone, message)
-        VALUES( ${full_name}, ${email_address}, ${phone}, ${message});
-      `);
+        VALUES( ?1, ?2, ?3, ?4)`).bind(full_name, email_address, phone, message);
+      console.log(ps)
 
-      const data = await ps.first();
+      const data = (await ps.run()).meta;
       return Response.json(data);
     }
     catch (e) {
